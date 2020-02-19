@@ -1513,18 +1513,11 @@ struct ext4_sb_info {
 	struct ratelimit_state s_warning_ratelimit_state;
 	struct ratelimit_state s_msg_ratelimit_state;
 
-	/* Barrier between changing inodes' journal flags and writepages ops. */
-<<<<<<< HEAD
-	struct percpu_rw_semaphore s_journal_flag_rwsem;
-=======
+	/*
+	 * Barrier between writepages ops and changing any inode's JOURNAL_DATA
+	 * or EXTENTS flag.
+	 */
 	struct percpu_rw_semaphore s_writepages_rwsem;
-
-	/* Encryption support */
-#ifdef CONFIG_EXT4_FS_ENCRYPTION
-	u8 key_prefix[EXT4_KEY_DESC_PREFIX_SIZE];
-	u8 key_prefix_size;
-#endif
->>>>>>> f17a17d20eac2... ext4: rename s_journal_flag_rwsem to s_writepages_rwsem
 };
 
 static inline struct ext4_sb_info *EXT4_SB(struct super_block *sb)
