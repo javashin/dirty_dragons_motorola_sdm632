@@ -75,7 +75,8 @@ static char *check[] = {
 	"camellia", "seed", "salsa20", "rmd128", "rmd160", "rmd256", "rmd320",
 	"lzo", "lzo-rle" , "cts", "zlib", "sha3-224", "sha3-256", "sha3-384", "sha3-512",
 	"sb256", "sb512",
-    "sha3-512", "streebog256", "streebog512",
+        "sha3-512", "streebog256", "streebog512",
+
 	NULL
 };
 
