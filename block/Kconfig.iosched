@@ -32,6 +32,13 @@ config IOSCHED_CFQ
 
 	  This is the default I/O scheduler.
 
+config CFQ_GROUP_IOSCHED
+	bool "CFQ Group Scheduling support"
+	depends on IOSCHED_CFQ && BLK_CGROUP
+	default n
+	---help---
+	  Enable group IO scheduling in CFQ.
+
 config IOSCHED_ANXIETY
 	tristate "Anxiety I/O scheduler"
 	default y
@@ -40,12 +47,13 @@ config IOSCHED_ANXIETY
 		else. When a request comes in, it will use a lighweight
 		selection algorithm to swiftly process the current pending task.
 
-config CFQ_GROUP_IOSCHED
-	bool "CFQ Group Scheduling support"
-	depends on IOSCHED_CFQ && BLK_CGROUP
-	default n
+config IOSCHED_FIOPS
+	tristate "FIOPS I/O scheduler"
+	default y
 	---help---
-	  Enable group IO scheduling in CFQ.
+	  The FIOPS I/O scheduler prioritizes latency over everything
+		else. When a request comes in, it will use a lighweight
+		selection algorithm to swiftly process the current pending task.
 
 config IOSCHED_BFQ
 	tristate "BFQ I/O scheduler"
@@ -93,17 +101,22 @@ choice
                bool "Anxiety" if IOSCHED_ANXIETY=y
 
 	config DEFAULT_NOOP
-		bool "No-op"
+		bool "No-Op"
+
+	config DEFAULT_FIOPS
+		bool "FIOPS" if IOSCHED_FIOPS=y
 
 endchoice
 
 config DEFAULT_IOSCHED
 	string
 	default "deadline" if DEFAULT_DEADLINE
-	default "cfq" if DEFAULT_CFQ
+	default "anxiety" if DEFAULT_ANXIETY 
+        default "cfq" if DEFAULT_CFQ
 	default "bfq" if DEFAULT_BFQ
         default "anxiety" if DEFAULT_ANXIETY
 	default "noop" if DEFAULT_NOOP
+	default "fiops" if DEFAULT_FIOPS
 
 endmenu
 
