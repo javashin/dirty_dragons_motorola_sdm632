@@ -4,6 +4,25 @@ SUBLEVEL = 238
 EXTRAVERSION =
 NAME = Roaring Lionus
 
+KBUILD_CFLAGS   += -O3 $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS += $(call cc-option,-mcpu=kyro,$(call cc-option,-mcpu=cortex-a73.cortex-a53 -march=armv8-a+fp+simd+crc+crypto,-march=armv8-a+fp+simd+crc+crypto))
+
+# Or armv8-a Compile fine.
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS   += -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo
+endif
+
+ifdef CONFIG_POLLY_CLANG
+KBUILD_CFLAGS	+= -mllvm -polly \
+		   -mllvm -polly-run-dce \
+		   -mllvm -polly-run-inliner \
+		   -mllvm -polly-opt-fusion=max \
+		   -mllvm -polly-ast-use-context \
+		   -mllvm -polly-detect-keep-going \
+		   -mllvm -polly-vectorizer=stripmine \
+		   -mllvm -polly-invariant-load-hoisting
+endif
+
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
 # More info can be located in ./README
