@@ -2758,16 +2758,6 @@ static inline bool f2fs_may_extent_tree(struct inode *inode)
 	return S_ISREG(inode->i_mode);
 }
 
-static inline void *kvmalloc(size_t size, gfp_t flags)
-{
-	void *ret;
-
-	ret = kmalloc(size, flags | __GFP_NOWARN);
-	if (!ret)
-		ret = __vmalloc(size, flags, PAGE_KERNEL);
-	return ret;
-}
-
 static inline void *f2fs_kmalloc(struct f2fs_sb_info *sbi,
 					size_t size, gfp_t flags)
 {
@@ -2777,6 +2767,13 @@ static inline void *f2fs_kmalloc(struct f2fs_sb_info *sbi,
 		f2fs_show_injection_info(FAULT_KMALLOC);
 		return NULL;
 	}
+
+	ret = kmalloc(size, flags);
+	if (ret)
+		return ret;
+
+	return kvmalloc(size, flags);
+}
 
 static inline int wbc_to_write_flags(struct writeback_control *wbc)
 {
