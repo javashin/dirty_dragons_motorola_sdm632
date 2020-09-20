@@ -39,6 +39,21 @@ typedef u32 vdso_xtime_clock_sec_t;
 typedef u32 vdso_raw_time_sec_t;
 #endif
 
+#ifndef _VDSO_WTM_CLOCK_SEC_T
+#define _VDSO_WTM_CLOCK_SEC_T
+typedef u32 vdso_wtm_clock_nsec_t;
+#endif
+
+#ifndef _VDSO_XTIME_CLOCK_SEC_T
+#define _VDSO_XTIME_CLOCK_SEC_T
+typedef u32 vdso_xtime_clock_sec_t;
+#endif
+
+#ifndef _VDSO_RAW_TIME_SEC_T
+#define _VDSO_RAW_TIME_SEC_T
+typedef u32 vdso_raw_time_sec_t;
+#endif
+
 /* Try to be cache-friendly on systems that don't implement the
  * generic timer: fit the unconditionally updated fields in the first
  * 32 bytes.
