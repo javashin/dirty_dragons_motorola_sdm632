@@ -2,7 +2,7 @@ VERSION = 4
 PATCHLEVEL = 9
 SUBLEVEL = 237
 EXTRAVERSION = -Pre-DirtyDragons_rV2
-NAME = Roaring Lionus
+NAME = BvD DrityDragons.
 
 KBUILD_CFLAGS   += -O3 $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS += $(call cc-option,-mcpu=kyro,$(call cc-option,-mcpu=cortex-a73.cortex-a53 -march=armv8-a+fp+simd+crc+crypto,-march=armv8-a+fp+simd+crc+crypto))
@@ -409,7 +409,7 @@ LINUXINCLUDE    := \
 LINUXINCLUDE	+= $(filter-out $(LINUXINCLUDE),$(USERINCLUDE))
 
 KBUILD_AFLAGS   := -D__ASSEMBLY__
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -Wno-error -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common -fshort-wchar \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
