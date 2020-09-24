@@ -4,7 +4,7 @@ SUBLEVEL = 237
 EXTRAVERSION = -AndroidHardened
 NAME = Roaring Lionus
 
-KBUILD_CFLAGS   += -O3 $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS   += -O2 $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS += $(call cc-option,-mcpu=kyro,$(call cc-option,-mcpu=cortex-a73.cortex-a53 -march=armv8-a+fp+simd+crc+crypto,-march=armv8-a+fp+simd+crc+crypto))
 
 # Or armv8-a Compile fine.
@@ -12,16 +12,16 @@ ifeq ($(cc-name),clang)
 KBUILD_CFLAGS   += -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo
 endif
 
-ifdef CONFIG_POLLY_CLANG
-KBUILD_CFLAGS	+= -mllvm -polly \
-		   -mllvm -polly-run-dce \
-		   -mllvm -polly-run-inliner \
-		   -mllvm -polly-opt-fusion=max \
-		   -mllvm -polly-ast-use-context \
-		   -mllvm -polly-detect-keep-going \
-		   -mllvm -polly-vectorizer=stripmine \
-		   -mllvm -polly-invariant-load-hoisting
-endif
+#ifdef CONFIG_POLLY_CLANG
+#KBUILD_CFLAGS	+= -mllvm -polly \
+#		   -mllvm -polly-run-dce \
+#		   -mllvm -polly-run-inliner \
+#		   -mllvm -polly-opt-fusion=max \
+#		   -mllvm -polly-ast-use-context \
+#		   -mllvm -polly-detect-keep-going \
+#		   -mllvm -polly-vectorizer=stripmine \
+#		   -mllvm -polly-invariant-load-hoisting
+#endif
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -322,8 +322,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -std=gnu89
-HOSTCXXFLAGS = -O3
+HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
+HOSTCXXFLAGS = -O2
 
 ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
 HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
@@ -549,15 +549,15 @@ KBUILD_CFLAGS += $(call cc-disable-warning, duplicate-decl-specifier)
 # KBUILD_CFLAGS += -Wno-undefined-optimized
 KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
 KBUILD_CFLAGS += $(call cc-option, -Wno-sometimes-uninitialized)
-KBUILD_CFLAGS += $(call cc-option, -Wno-error=incompatible-pointer-types-discards-qualifiers)
-KBUILD_CFLAGS += -Wno-incompatible-pointer-types-discards-qualifiers
+#KBUILD_CFLAGS += $(call cc-option, -Wno-error=incompatible-pointer-types-discards-qualifiers)
+#KBUILD_CFLAGS += -Wno-incompatible-pointer-types-discards-qualifiers
 KBUILD_CFLAGS += -Wno-asm-operand-widths
 KBUILD_CFLAGS += -Wno-initializer-overrides
 KBUILD_CFLAGS += -fno-builtin
-KBUILD_CFLAGS += -O3 -mllvm -polly
-KBUILD_CFLAGS += -fno-stack-protector
+#KBUILD_CFLAGS += -O2 -mllvm -polly
+#KBUILD_CFLAGS += -fno-stack-protector
 KBUILD_CFLAGS += -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo
-KBUILD_CFLAGS += -Wno-error=incompatible-pointer-types-discards-qualifiers
+#KBUILD_CFLAGS += -Wno-error=incompatible-pointer-types-discards-qualifiers
 
 # Quiet clang warning: comparison of unsigned expression < 0 is always false
 
@@ -784,7 +784,7 @@ endif
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS   += -Os
 else
-KBUILD_CFLAGS   += -O3
+KBUILD_CFLAGS   += -O2
 endif
 
 ifdef CONFIG_CC_DISABLE_WARN_MAYBE_UNINITIALIZED
@@ -859,14 +859,14 @@ KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
 # See modpost pattern 2
 KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
 KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
-KBUILD_CFLAGS += $(call cc-option, -mllvm -polly) \
-		 $(call cc-option, -mllvm -polly-run-dce) \
-		 $(call cc-option, -mllvm -polly-run-inliner) \
-		 $(call cc-option, -mllvm -polly-opt-fusion=max) \
-		 $(call cc-option, -mllvm -polly-ast-use-context) \
-		 $(call cc-option, -mllvm -polly-detect-keep-going) \
-		 $(call cc-option, -mllvm -polly-vectorizer=stripmine)
-else
+#KBUILD_CFLAGS += $(call cc-option, -mllvm -polly) \
+#		 $(call cc-option, -mllvm -polly-run-dce) \
+#		 $(call cc-option, -mllvm -polly-run-inliner) \
+#		 $(call cc-option, -mllvm -polly-opt-fusion=max) \
+#		 $(call cc-option, -mllvm -polly-ast-use-context) \
+#		 $(call cc-option, -mllvm -polly-detect-keep-going) \
+#		 $(call cc-option, -mllvm -polly-vectorizer=stripmine)
+#else
 
 # These warnings generated too much noise in a regular build.
 # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
@@ -925,9 +925,9 @@ endif
 endif
 
 # We trigger additional mismatches with less inlining
-ifdef CONFIG_DEBUG_SECTION_MISMATCH
-KBUILD_CFLAGS += $(call cc-option, -fno-inline-functions-called-once)
-endif
+#ifdef CONFIG_DEBUG_SECTION_MISMATCH
+#KBUILD_CFLAGS += $(call cc-option, -fno-inline-functions-called-once)
+#endif
 
 # arch Makefile may override CC so keep this after arch Makefile is included
 NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
