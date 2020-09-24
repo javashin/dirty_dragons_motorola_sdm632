@@ -124,6 +124,16 @@ static inline int kmem_cache_debug(struct kmem_cache *s)
 #endif
 }
 
+static inline bool has_sanitize(struct kmem_cache *s)
+{
+	return IS_ENABLED(CONFIG_SLAB_SANITIZE) && !(s->flags & (SLAB_TYPESAFE_BY_RCU | SLAB_POISON));
+}
+
+static inline bool has_sanitize_verify(struct kmem_cache *s)
+{
+	return IS_ENABLED(CONFIG_SLAB_SANITIZE_VERIFY) && has_sanitize(s);
+}
+
 void *fixup_red_left(struct kmem_cache *s, void *p)
 {
 	if (kmem_cache_debug(s) && s->flags & SLAB_RED_ZONE)
@@ -449,13 +459,13 @@ static inline void *restore_red_left(struct kmem_cache *s, void *p)
  * Debug settings:
  */
 #if defined(CONFIG_SLUB_DEBUG_ON)
-static int slub_debug = DEBUG_DEFAULT_FLAGS;
+static int slub_debug __ro_after_init = DEBUG_DEFAULT_FLAGS;
 #else
-static int slub_debug;
+static int slub_debug __ro_after_init;
 #endif
 
-static char *slub_debug_slabs;
-static int disable_higher_order_debug;
+static char *slub_debug_slabs __ro_after_init;
+static int disable_higher_order_debug __ro_after_init;
 
 /*
  * slub is about to manipulate internal object metadata.  This memory lies
@@ -1415,7 +1425,7 @@ static void setup_object(struct kmem_cache *s, struct page *page,
 {
 	setup_object_debug(s, page, object);
 	kasan_init_slab_obj(s, object);
-	if (unlikely(s->ctor)) {
+	if (unlikely(s->ctor) && !has_sanitize_verify(s)) {
 		kasan_unpoison_object_data(s, object);
 		s->ctor(object);
 		kasan_poison_object_data(s, object);
@@ -2757,7 +2767,14 @@ redo:
 		stat(s, ALLOC_FASTPATH);
 	}
 
-	if (unlikely(gfpflags & __GFP_ZERO) && object)
+	if (has_sanitize_verify(s) && object) {
+		size_t offset = s->offset ? 0 : sizeof(void *);
+		BUG_ON(memchr_inv(object + offset, 0, s->object_size - offset));
+		if (s->ctor)
+			s->ctor(object);
+		if (unlikely(gfpflags & __GFP_ZERO) && offset)
+			memset(object, 0, sizeof(void *));
+	} else if (unlikely(gfpflags & __GFP_ZERO) && object)
 		memset(object, 0, s->object_size);
 
 	slab_post_alloc_hook(s, gfpflags, 1, &object);
@@ -2966,6 +2983,21 @@ static __always_inline void do_slab_free(struct kmem_cache *s,
 	void *tail_obj = tail ? : head;
 	struct kmem_cache_cpu *c;
 	unsigned long tid;
+
+	if (has_sanitize(s)) {
+		int offset = s->offset ? 0 : sizeof(void *);
+		void *x = head;
+
+		while (1) {
+			memset(x + offset, 0, s->object_size - offset);
+			if (!IS_ENABLED(CONFIG_SLAB_SANITIZE_VERIFY) && s->ctor)
+				s->ctor(x);
+			if (x == tail_obj)
+				break;
+			x = get_freepointer(s, x);
+		}
+	}
+
 redo:
 	/*
 	 * Determine the currently cpus per cpu slab.
@@ -3192,7 +3224,18 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
 	local_irq_enable();
 
 	/* Clear memory outside IRQ disabled fastpath loop */
-	if (unlikely(flags & __GFP_ZERO)) {
+	if (has_sanitize_verify(s)) {
+		int j;
+
+		for (j = 0; j < i; j++) {
+			size_t offset = s->offset ? 0 : sizeof(void *);
+			BUG_ON(memchr_inv(p[j] + offset, 0, s->object_size - offset));
+			if (s->ctor)
+				s->ctor(p[j]);
+			if (unlikely(flags & __GFP_ZERO) && offset)
+				memset(p[j], 0, sizeof(void *));
+		}
+	} else if (unlikely(flags & __GFP_ZERO)) {
 		int j;
 
 		for (j = 0; j < i; j++)
@@ -3230,9 +3273,9 @@ EXPORT_SYMBOL(kmem_cache_alloc_bulk);
  * and increases the number of allocations possible without having to
  * take the list_lock.
  */
-static int slub_min_order;
-static int slub_max_order = PAGE_ALLOC_COSTLY_ORDER;
-static int slub_min_objects;
+static int slub_min_order __ro_after_init;
+static int slub_max_order __ro_after_init = PAGE_ALLOC_COSTLY_ORDER;
+static int slub_min_objects __ro_after_init;
 
 /*
  * Calculate the order of allocation given an slab object size.
@@ -3899,7 +3942,11 @@ static size_t __ksize(const void *object)
 	page = virt_to_head_page(object);
 
 	if (unlikely(!PageSlab(page))) {
+#ifdef CONFIG_BUG_ON_DATA_CORRUPTION
+		BUG_ON(!PageCompound(page));
+#else
 		WARN_ON(!PageCompound(page));
+#endif
 		return PAGE_SIZE << compound_order(page);
 	}
 
@@ -4728,7 +4775,7 @@ enum slab_stat_type {
 #define SO_TOTAL	(1 << SL_TOTAL)
 
 #ifdef CONFIG_MEMCG
-static bool memcg_sysfs_enabled = IS_ENABLED(CONFIG_SLUB_MEMCG_SYSFS_ON);
+static bool memcg_sysfs_enabled __ro_after_init = IS_ENABLED(CONFIG_SLUB_MEMCG_SYSFS_ON);
 
 static int __init setup_slub_memcg_sysfs(char *str)
 {
