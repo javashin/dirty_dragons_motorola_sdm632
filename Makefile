@@ -945,6 +945,17 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
 # disable invalid "can't wrap" optimizations for signed / pointerss
 KBUILD_CFLAGS	+= $(call cc-option,-fno-strict-overflow)
 
+
+#+# clang sets -fmerge-all-constants by default as optimization, but this
+#+# is non-conforming behavior for C and in fact breaks the kernel, so we
+#+# need to disable it here generally.
+#+KBUILD_CFLAGS	+= $(call cc-option,-fno-merge-all-constants)
+#+
+#+# for gcc -fno-merge-all-constants disables everything, but it is fine
+#+# to have actual conforming behavior enabled.
+#+KBUILD_CFLAGS	+= $(call cc-option,-fmerge-constants)
+#+
+
 # clang sets -fmerge-all-constants by default as optimization, but this
 # is non-conforming behavior for C and in fact breaks the kernel, so we
 # need to disable it here generally.
@@ -952,7 +963,7 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-merge-all-constants)
 
 # for gcc -fno-merge-all-constants disables everything, but it is fine
 # to have actual conforming behavior enabled.
-KBUILD_CFLAGS	+= $(call cc-option,-fmerge-constants)
+#KBUILD_CFLAGS	+= $(call cc-option,-fmerge-constants)
 
 # Make sure -fstack-check isn't enabled (like gentoo apparently did)
 KBUILD_CFLAGS  += $(call cc-option,-fno-stack-check,)
@@ -1262,19 +1273,20 @@ ifdef lto-flags
   endif
 endif
 # Make sure compiler supports requested stack protector flag.
-ifdef stackp-name
-  ifeq ($(call cc-option, $(stackp-flag)),)
-	@echo Cannot use CONFIG_CC_STACKPROTECTOR_$(stackp-name): \
-		  $(stackp-flag) not supported by compiler >&2 && exit 1
-  endif
-endif
+#ifdef stackp-name
+#  ifeq ($(call cc-option, $(stackp-flag)),)
+#	@echo Cannot use CONFIG_CC_STACKPROTECTOR_$(stackp-name): \
+#		  $(stackp-flag) not supported by compiler >&2 && exit 1
+#  endif
+#endif
 # Make sure compiler does not have buggy stack-protector support.
-ifdef stackp-check
-  ifneq ($(shell $(CONFIG_SHELL) $(stackp-check) $(CC) $(KBUILD_CPPFLAGS) $(biarch)),y)
-	@echo Cannot use CONFIG_CC_STACKPROTECTOR_$(stackp-name): \
-                  $(stackp-flag) available but compiler is broken >&2 && exit 1
-  endif
-endif
+#ifdef stackp-check
+#  ifneq ($(shell $(CONFIG_SHELL) $(stackp-check) $(CC) $(KBUILD_CPPFLAGS) $(biarch)),y)
+#	@echo Cannot use CONFIG_CC_STACKPROTECTOR_$(stackp-name): \
+#                  $(stackp-flag) available but compiler is broken >&2 && exit 1
+#  endif
+#endif
+
 ifdef cfi-flags
   ifeq ($(call cc-option, $(cfi-flags)),)
 	@echo Cannot use CONFIG_CFI: $(cfi-flags) not supported by compiler >&2 && exit 1

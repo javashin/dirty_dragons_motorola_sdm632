@@ -175,7 +175,7 @@ config LSM_MMAP_MIN_ADDR
 config HAVE_HARDENED_USERCOPY_ALLOCATOR
 	bool
         select BUG
-	imply STRICT_DEVMEM
+	select STRICT_DEVMEM
 	default y
 	help
 	  The heap allocator implements __check_heap_object() for
