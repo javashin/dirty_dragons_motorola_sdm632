@@ -1,7 +1,7 @@
 VERSION = 4
 PATCHLEVEL = 9
 SUBLEVEL = 237
-EXTRAVERSION = -DirtyDragons_rV4
+EXTRAVERSION = -AndroidHardened
 NAME = Roaring Lionus
 
 KBUILD_CFLAGS   += -O3 $(call cc-disable-warning,maybe-uninitialized,)
