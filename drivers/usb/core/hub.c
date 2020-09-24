@@ -38,6 +38,8 @@
 
 extern int deny_new_usb;
 
+extern int deny_new_usb;
+
 /* Protect struct usb_device->state and ->children members
  * Note: Both are also protected by ->dev.sem, except that ->state can
  * change to USB_STATE_NOTATTACHED even when the semaphore isn't held. */
@@ -4801,6 +4803,12 @@ hub_power_remaining(struct usb_hub *hub)
 static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
 		u16 portchange)
 {
+
+	if (deny_new_usb) {
+		dev_err(&port_dev->dev, "denied insert of USB device on port %d\n", port1);
+		goto done;
+	}
+
 	int ret, status = -ENODEV;
 	int i;
 	unsigned unit_load;

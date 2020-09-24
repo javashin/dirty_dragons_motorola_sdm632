@@ -1309,7 +1309,8 @@ config DEBUG_BUGVERBOSE
 
 config DEBUG_LIST
 	bool "Debug linked list manipulation"
-	depends on DEBUG_KERNEL
+	depends on DEBUG_KERNEL || BUG_ON_DATA_CORRUPTION
+	default y
 	help
 	  Enable this to turn on extended checks in the linked-list
 	  walking routines.
@@ -2103,7 +2104,8 @@ config PANIC_ON_DATA_CORRUPTION
 
 config BUG_ON_DATA_CORRUPTION
 	bool "Trigger a BUG when data corruption is detected"
-	select CONFIG_DEBUG_LIST
+	select DEBUG_LIST
+	default y
 	help
 	  Select this option if the kernel should BUG when it encounters
 	  data corruption in kernel memory structures when they get checked

@@ -1899,6 +1899,7 @@ void tcp_init(void);
 
 /* Flags to enable various loss recovery features. See below */
 extern int sysctl_tcp_recovery;
+extern int sysctl_tcp_simult_connect;
 
 /* Use TCP RACK to detect (some) tail and retransmit losses */
 #define TCP_RACK_LOST_RETRANS  0x1

@@ -210,7 +210,7 @@ struct bpf_prog *bpf_patch_insn_single(struct bpf_prog *prog, u32 off,
 #ifdef CONFIG_BPF_JIT
 /* All BPF JIT sysctl knobs here. */
 int bpf_jit_enable   __read_mostly = IS_BUILTIN(CONFIG_BPF_JIT_ALWAYS_ON);
-int bpf_jit_harden   __read_mostly;
+int bpf_jit_harden   __read_mostly = 2;
 long bpf_jit_limit   __read_mostly;
 
 static atomic_long_t bpf_jit_current;

@@ -46,6 +46,15 @@ config SECURITY_TIOCSTI_RESTRICT
 
 	  If you are unsure how to answer this question, answer N.
 
+config SECURITY_PERF_EVENTS_RESTRICT
+	bool "Restrict unprivileged use of performance events"
+	depends on PERF_EVENTS
+	help
+	  If you say Y here, the kernel.perf_event_paranoid sysctl
+	  will be set to 3 by default, and no unprivileged use of the
+	  perf_event_open syscall will be permitted unless it is
+	  changed.
+
 config SECURITY
 	bool "Enable different security models"
 	depends on SYSFS
@@ -165,6 +174,9 @@ config LSM_MMAP_MIN_ADDR
 
 config HAVE_HARDENED_USERCOPY_ALLOCATOR
 	bool
+        select BUG
+	imply STRICT_DEVMEM
+	default y
 	help
 	  The heap allocator implements __check_heap_object() for
 	  validating memory ranges against heap object sizes in
@@ -210,6 +222,31 @@ config FORTIFY_SOURCE
 	help
 	  Detect overflows of buffers in common string and memory functions
 	  where the compiler can determine and validate the buffer sizes.
+
+config FORTIFY_SOURCE_STRICT_STRING
+	bool "Harden common functions against buffer overflows"
+	depends on FORTIFY_SOURCE
+	depends on EXPERT
+	help
+	  Perform stricter overflow checks catching overflows within objects
+	  for common C string functions rather than only between objects.
+
+	  This is not yet intended for production use, only bug finding.
+
+config PAGE_SANITIZE
+	bool "Sanitize pages"
+	default y
+	help
+	  Zero fill page allocations on free, reducing the lifetime of
+	  sensitive data and helping to mitigate use-after-free bugs.
+
+config PAGE_SANITIZE_VERIFY
+	bool "Verify sanitized pages"
+	depends on PAGE_SANITIZE
+	default y
+	help
+	  Verify that newly allocated pages are zeroed to detect
+	  write-after-free bugs.
 
 source security/selinux/Kconfig
 source security/smack/Kconfig

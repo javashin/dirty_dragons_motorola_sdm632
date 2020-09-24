@@ -37,6 +37,7 @@ static int vmlinux_section_warnings = 1;
 static int warn_unresolved = 0;
 /* How a symbol is exported */
 static int sec_mismatch_count = 0;
+static int writable_fptr_count = 0;
 static int sec_mismatch_verbose = 1;
 static int sec_mismatch_fatal = 0;
 /* ignore missing files */
@@ -949,6 +950,7 @@ enum mismatch {
 	ANY_EXIT_TO_ANY_INIT,
 	EXPORT_TO_INIT_EXIT,
 	EXTABLE_TO_NON_TEXT,
+	DATA_TO_TEXT
 };
 
 /**
@@ -1075,6 +1077,12 @@ static const struct sectioncheck sectioncheck[] = {
 	.good_tosec = {ALL_TEXT_SECTIONS , NULL},
 	.mismatch = EXTABLE_TO_NON_TEXT,
 	.handler = extable_mismatch_handler,
+},
+/* Do not reference code from writable data */
+{
+	.fromsec = { DATA_SECTIONS, NULL },
+	.bad_tosec = { ALL_TEXT_SECTIONS, NULL },
+	.mismatch = DATA_TO_TEXT
 }
 };
 
@@ -1266,10 +1274,10 @@ static Elf_Sym *find_elf_symbol(struct elf_info *elf, Elf64_Sword addr,
 			continue;
 		if (!is_valid_name(elf, sym))
 			continue;
-		if (sym->st_value == addr)
-			return sym;
 		/* Find a symbol nearby - addr are maybe negative */
 		d = sym->st_value - addr;
+		if (d == 0)
+			return sym;
 		if (d < 0)
 			d = addr - sym->st_value;
 		if (d < distance) {
@@ -1404,7 +1412,11 @@ static void report_sec_mismatch(const char *modname,
 	char *prl_from;
 	char *prl_to;
 
-	sec_mismatch_count++;
+	if (mismatch->mismatch == DATA_TO_TEXT)
+		writable_fptr_count++;
+	else
+		sec_mismatch_count++;
+
 	if (!sec_mismatch_verbose)
 		return;
 
@@ -1527,6 +1539,14 @@ static void report_sec_mismatch(const char *modname,
 	case EXTABLE_TO_NON_TEXT:
 		fatal("There's a special handler for this mismatch type, "
 		      "we should never get here.");
+		break;
+	case DATA_TO_TEXT:
+#if 0
+		fprintf(stderr,
+		"The %s %s:%s references\n"
+		"the %s %s:%s%s\n",
+		from, fromsec, fromsym, to, tosec, tosym, to_p);
+#endif
 		break;
 	}
 	fprintf(stderr, "\n");
@@ -2523,6 +2543,14 @@ int main(int argc, char **argv)
 		if (sec_mismatch_fatal) {
 			fatal("modpost: Section mismatches detected.\n"
 			      "Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.\n");
+		}
+	}
+	if (writable_fptr_count) {
+		if (!sec_mismatch_verbose) {
+			warn("modpost: Found %d writable function pointer(s).\n"
+			     "To see full details build your kernel with:\n"
+			     "'make CONFIG_DEBUG_SECTION_MISMATCH=y'\n",
+			     writable_fptr_count);
 		}
 	}
 
