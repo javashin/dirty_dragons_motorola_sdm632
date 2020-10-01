@@ -62,17 +62,18 @@ dump_boot;
 
 # end ramdisk changes
 #ui_print " "
-#ui_print "Device: Moto G7 Power (OCEAN)"
-#ui_print "Kernel Name: Custo-Kernal-JavaShin-X"
-#ui_print "Build User: root = javashin"
-#ui_print "KVer: 4.9.233-BvD-BaHaMuT_r16+ jsX-CustoKernal SMP PREEMPT aarch64"
-#ui_print "Saturday 22 August 2020"
-#ui_print "Toolchain Info:"
-#ui_print "Proton clang version 12.0.0 LTO+PGO+POLLY Optimized Build by kdragOn"
-#ui_print "Cross 64bits/aarch64-linux-gnu-gcc version 10.2.0 (Debian 10.2.0-5)"
-#ui_print "Cross Linker Gnu Binutils 2.35 (Debian 2.35-5)"
-#ui_print "CFLAGS/KBUILD_FLAGS=-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo"
-#ui_print " "
+ui_print "Device: Moto G7 Power (OCEAN)"
+ui_print "Kernel Name: DirtyDragons"
+ui_print "Build User: root = javashin"
+ui_print "KVer: 4.9.238-DirtyDragons_rV5+ jsX-DirtyDragons SMP PREEMPT aarch64"
+ui_print "Thursday, October 01 2020"
+ui_print "Toolchain Info:"
+ui_print "CC/HOSTCC =  clang version 11.0.5 Clang Prebuilt Google - Android (6875598, based on r399163b) clang version 11.0.5"
+ui_print "Cross 64bits/aarch64-buildroot-linux-gnu gcc version 10.2.0 (Buildroot 2020.08-14-ge5a2a90)"
+ui_print "Cross 32bits/arm-buildroot-linux-gnueabihf gcc version 10.2.0 (Buildroot 2020.08-14-ge5a2a90)"
+ui_print "Cross Linker Gnu Binutils 2.34 (Bootlin GNU Binutils)"
+ui_print "CFLAGS/KBUILD_FLAGS=-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo"
+ui_print " "
 
 
 write_boot;
