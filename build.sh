@@ -64,12 +64,12 @@ sleep 1
 
 export KCFLAGS+="-march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo"
 export KBUILD_CFLAGS+="-march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo"
-export KCFLAGS+="-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo -Wno-error=misleading-indentation -Wno-error=incompatible-pointer-types-discards-qualifiers -Wno-enum-conversion"
+export KCFLAGS+="-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo -Wno-error=misleading-indentation -Wno-error=incompatible-pointer-types-discards-qualifiers -Wno-enum-conversion -pipe "
 
 #Gcc-10-Optimize
 export KCFLAGS+="--param=inline-min-speedup=15 --param=max-inline-insns-single=200 --param=max-inline-insns-auto=30 --param=early-inlining-insns=14"
 
-PATH="/cross-tc/clang/bin:/cross-tc/aarch64/bin:/cross-tc/armv7-eabihf/bin:${PATH}" make O=/OUT ARCH=arm64 SUBARCH=arm CC=/cross-tc/clang/bin/clang LD=/cross-tc/aarch64/bin/aarch64-buildroot-linux-gnu-ld.bfd CONFIG_BUILD_ARM64_DT_OVERLAY=y CROSS_COMPILE_ARM32=/cross-tc/armv7-eabihf/bin/arm-buildroot-linux-gnueabihf- CLANG_TRIPLE_ARM32=/cross-tc/armv7-eabihf/bin/arm-buildroot-linux-gnueabihf- CLANG_TRIPLE=/cross-tc/aarch64/bin/aarch64-buildroot-linux-gnu- CROSS_COMPILE=/cross-tc/aarch64/bin/aarch64-buildroot-linux-gnu- SELINUX_DEFCONFIG=selinux_defconfig SELINUX_DEFCONFIG=selinux_defconfig KCFLAGS+="-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo -Wno-error=misleading-indentation -Wno-error=incompatible-pointer-types-discards-qualifiers -Wno-enum-conversion" V=0
+PATH="/cross-tc/clang/bin:/cross-tc/aarch64/bin:/cross-tc/armv7-eabihf/bin:${PATH}" make O=/OUT ARCH=arm64 SUBARCH=arm CC=/cross-tc/clang/bin/clang LD=/cross-tc/aarch64/bin/aarch64-buildroot-linux-gnu-ld.bfd CONFIG_BUILD_ARM64_DT_OVERLAY=y CROSS_COMPILE_ARM32=/cross-tc/armv7-eabihf/bin/arm-buildroot-linux-gnueabihf- CLANG_TRIPLE_ARM32=/cross-tc/armv7-eabihf/bin/arm-buildroot-linux-gnueabihf- CLANG_TRIPLE=/cross-tc/aarch64/bin/aarch64-buildroot-linux-gnu- CROSS_COMPILE=/cross-tc/aarch64/bin/aarch64-buildroot-linux-gnu- SELINUX_DEFCONFIG=selinux_defconfig SELINUX_DEFCONFIG=selinux_defconfig KCFLAGS+="-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo -Wno-error=misleading-indentation -Wno-error=incompatible-pointer-types-discards-qualifiers -Wno-enum-conversion -pipe " V=0
 
 echo "##################################################"
 echo "##################################################"
