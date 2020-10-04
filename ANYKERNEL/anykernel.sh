@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=-#- Blue-Virtual-Dragon DirtyDragons Caf MSM-4.9-r27 Branch For Moto G7 Power Ocean -#-
+kernel.string=-#- Blue-Virtual-Dragon DirtyDragons Caf MSM-4.9 r27/r40 Branch For Moto G7 Power Ocean Caf-Roms -#-
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -65,8 +65,8 @@ dump_boot;
 ui_print "Device: Moto G7 Power (OCEAN)"
 ui_print "Kernel Name: DirtyDragons"
 ui_print "Build User: root = javashin"
-ui_print "KVer: 4.9.238-DirtyDragons_rV5+ jsX-DirtyDragons SMP PREEMPT aarch64"
-ui_print "Thursday, October 01 2020"
+ui_print "KVer: 4.9.238-DirtyDragons_rV5+ jsX-DirtyDragons-Caf SMP PREEMPT aarch64"
+ui_print "Sunday, October 04 2020"
 ui_print "Toolchain Info:"
 ui_print "CC/HOSTCC =  clang version 11.0.5 Clang Prebuilt Google - Android (6875598, based on r399163b) clang version 11.0.5"
 ui_print "Cross 64bits/aarch64-buildroot-linux-gnu gcc version 10.2.0 (Buildroot 2020.08-14-ge5a2a90)"
