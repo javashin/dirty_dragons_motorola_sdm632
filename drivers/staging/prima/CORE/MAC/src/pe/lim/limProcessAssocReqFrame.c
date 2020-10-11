@@ -1547,6 +1547,7 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     
                 }
 
+#ifdef WLAN_FEATURE_SAE
                 akm_type = lim_translate_rsn_oui_to_akm_type(
                                     Dot11fIERSN.akm_suite[0]);
 
@@ -1565,6 +1566,7 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                         goto error;
                     }
                 }
+#endif
 
             } /* end - if(pAssocReq->rsnPresent) */
             if((!pAssocReq->rsnPresent) && pAssocReq->wpaPresent)
@@ -1864,7 +1866,7 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
                     pMlmAssocInd->chan_info.info = MODE_11AC_VHT40;
                 } else
                     pMlmAssocInd->chan_info.info = MODE_11AC_VHT20;
-                    pMlmAssocInd->VHTCaps = pAssocReq->VHTCaps;
+                pMlmAssocInd->VHTCaps = pAssocReq->VHTCaps;
             } else if (psessionEntry->htCapability &&
                                 pAssocReq->HTCaps.present) {
                 if ((psessionEntry->vhtTxChannelWidthSet ==
