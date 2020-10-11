@@ -1,7 +1,7 @@
 VERSION = 4
 PATCHLEVEL = 9
-SUBLEVEL = 238
-EXTRAVERSION = -DirtyDragons_rV5
+SUBLEVEL = 239
+EXTRAVERSION = -Pre-DirtyDragons_rV6
 NAME = Roaring Lionus - Blue-Virtual-Dragon - DirtyDragons JavaShin-X Custom Kernel.
 
 KBUILD_CFLAGS   += -O3 $(call cc-disable-warning,maybe-uninitialized,)
