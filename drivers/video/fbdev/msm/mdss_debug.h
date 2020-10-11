@@ -186,6 +186,7 @@ void mdss_dump_reg(const char *dump_name, u32 reg_dump_flag, char *addr,
 	int len, u32 **dump_mem, phys_addr_t *regs_phys, bool from_isr);
 void mdss_mdp_debug_mid(u32 mid);
 void mdss_dump_dsi_debug_bus(u32 bus_dump_flag, u32 **dump_mem);
+int mdss_dump_misr_data(char **buf, u32 size);
 #else
 struct mdss_debug_base;
 struct dump_offset;

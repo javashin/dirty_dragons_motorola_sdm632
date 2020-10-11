@@ -4170,11 +4170,14 @@ tLimMlmRemoveKeyCnf  mlmRemoveKeyCnf;
       // Prepare and Send LIM_MLM_REMOVEKEY_CNF
       mlmRemoveKeyCnf.resultCode = eSIR_SME_INVALID_PARAMETERS;
       mlmRemoveKeyCnf.sessionId = pMlmRemoveKeyReq->sessionId;
+      
 
       goto end;
   }
-  else{
-    staIdx = pStaDs->staIndex;}
+  else
+    staIdx = pStaDs->staIndex;
+  
+
 
     psessionEntry->limMlmState = eLIM_MLM_WT_REMOVE_STA_KEY_STATE;
     MTRACE(macTrace(pMac, TRACE_CODE_MLM_STATE, psessionEntry->peSessionId, psessionEntry->limMlmState));
@@ -4182,7 +4185,7 @@ tLimMlmRemoveKeyCnf  mlmRemoveKeyCnf;
     // Package WDA_REMOVE_STAKEY_REQ message parameters
     limSendRemoveStaKeyReq( pMac,pMlmRemoveKeyReq,staIdx,psessionEntry);
     return;
-
+ 
 end:
     limPostSmeRemoveKeyCnf( pMac,
       psessionEntry,
@@ -5419,8 +5422,8 @@ ePhyChanBondState limGet11ACPhyCBState(tpAniSirGlobal pMac, tANI_U8 channel, tAN
         return htSecondaryChannelOffset;
     }
 
-    if ( htSecondaryChannelOffset 
-                 == PHY_DOUBLE_CHANNEL_LOW_PRIMARY
+    if ( (htSecondaryChannelOffset 
+                 == PHY_DOUBLE_CHANNEL_LOW_PRIMARY)
        )
     {
         if ((channel + 2 ) == peerCenterChan )
@@ -5434,8 +5437,8 @@ ePhyChanBondState limGet11ACPhyCBState(tpAniSirGlobal pMac, tANI_U8 channel, tAN
                        FL("Invalid Channel Number = %d Center Chan = %d "),
                                  channel, peerCenterChan);
     }
-    if ( htSecondaryChannelOffset 
-                 == PHY_DOUBLE_CHANNEL_HIGH_PRIMARY
+    if ( (htSecondaryChannelOffset 
+                 == PHY_DOUBLE_CHANNEL_HIGH_PRIMARY)
        )
     {
         if ((channel - 2 ) == peerCenterChan )
