@@ -4,25 +4,16 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=-#- Blue-Virtual-Dragon DirtyDragons Caf MSM-4.9-r27 Branch For Moto G7 Power Ocean -#-
+kernel.string=-#- DirtyDragons Caf MSM-4.9 r27 Branch For Moto G7 Power Ocean Stock-Q -#-
 do.devicecheck=1
-do.modules=0
-do.systemless=1
+do.modules=1
 do.cleanup=1
 do.cleanuponabort=0
 device.name1=ocean
-device.name2=
-device.name3=
-device.name4=
-device.name5=
 supported.versions=
 supported.patchlevels=
 '; } # end properties
 
-# shell variables
-#block=/dev/block/mmcblk0p42;
-#is_slot_device=1;
-#ramdisk_compression=lzma;
 
 block=/dev/block/by-name/boot;
 is_slot_device=auto;
@@ -33,47 +24,15 @@ ramdisk_compression=lzma;
 . tools/ak3-core.sh;
 
 
-## AnyKernel file attributes
-# set permissions/ownership for included ramdisk files
-#set_perm_recursive 0 0 755 644 $ramdisk/*;
-#set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
-
-
 ## AnyKernel install
 dump_boot;
 
-# begin ramdisk changes
 
-# init.rc
-#backup_file init.rc;
-#replace_string init.rc "cpuctl cpu,timer_slack" "mount cgroup none /dev/cpuctl cpu" "mount cgroup none /dev/cpuctl cpu,timer_slack";
-
-# init.tuna.rc
-#backup_file init.tuna.rc;
-#insert_line init.tuna.rc "nodiratime barrier=0" after "mount_all /fstab.tuna" "\tmount ext4 /dev/block/platform/omap/omap_hsmmc.0/by-name/userdata /data remount nosuid nodev noatime nodiratime barrier=0";
-#append_file init.tuna.rc "bootscript" init.tuna;
-
-# fstab.tuna
-#backup_file fstab.tuna;
-#patch_fstab fstab.tuna /system ext4 options "noatime,barrier=1" "noatime,nodiratime,barrier=0";
-#patch_fstab fstab.tuna /cache ext4 options "barrier=1" "barrier=0,nomblk_io_submit";
-#patch_fstab fstab.tuna /data ext4 options "data=ordered" "nomblk_io_submit,data=writeback";
-#append_file fstab.tuna "usbdisk" fstab;
-
-# end ramdisk changes
-#ui_print " "
 ui_print "Device: Moto G7 Power (OCEAN)"
-ui_print "Kernel Name: DirtyDragons"
+ui_print "Kernel Name: DirtyDragons Stock Q"
 ui_print "Build User: root = javashin"
-ui_print "KVer: 4.9.238-DirtyDragons_rV5+ jsX-DirtyDragons SMP PREEMPT aarch64"
-ui_print "Thursday, October 01 2020"
-ui_print "Toolchain Info:"
-ui_print "CC/HOSTCC =  clang version 11.0.5 Clang Prebuilt Google - Android (6875598, based on r399163b) clang version 11.0.5"
-ui_print "Cross 64bits/aarch64-buildroot-linux-gnu gcc version 10.2.0 (Buildroot 2020.08-14-ge5a2a90)"
-ui_print "Cross 32bits/arm-buildroot-linux-gnueabihf gcc version 10.2.0 (Buildroot 2020.08-14-ge5a2a90)"
-ui_print "Cross Linker Gnu Binutils 2.34 (Bootlin GNU Binutils)"
-ui_print "CFLAGS/KBUILD_FLAGS=-O3 -mllvm -polly -fno-stack-protector -march=armv8-a+fp+simd+crc+crypto -mcpu=kryo -mtune=kryo"
-ui_print " "
+ui_print "KVer: 4.9.239-Pre-DirtyDragons_rV6+ jsX-DirtyDragons SMP PREEMPT aarch64"
+ui_print "Sunday, October 11 2020"
 
 
 write_boot;
