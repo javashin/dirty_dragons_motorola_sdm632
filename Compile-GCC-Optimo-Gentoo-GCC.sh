@@ -92,8 +92,8 @@ echo "##################################################"
 echo "DONE"
 
 echo "Set Normal Speed To Cooldown CPU After Compilation"
-/usr/bin/cpupower frequency-set -g powersave
-/usr/sbin/x86_energy_perf_policy power
+#/usr/bin/cpupower frequency-set -g powersave
+#/usr/sbin/x86_energy_perf_policy power
 echo "1" > /sys/devices/system/cpu/intel_pstate/no_turbo
 
 
@@ -115,9 +115,9 @@ cp ./Image.gz-dtb ANYKERNEL/
 cd ANYKERNEL/
 rm ./dtbo.img
 rm 4.9.2*.zip
-zip -r9 4.9.239-Pre-DirtyDragons_rV6+OCEAN-Fri-October-09-2020.zip * -x .git README.md *placeholder
-cp 4.9.239-Pre-DirtyDragons_rV6+OCEAN-Fri-October-09-2020.zip /home/javashin/Desktop/
-ls -lash 4.9.239-Pre-DirtyDragons_rV6+OCEAN-Fri-October-09-2020.zip ; pwd ; cd .. ; pwd
+zip -r9 4.9.239-DirtyDragons_rV7+OCEAN-Thursday-October-15-2020.zip * -x .git README.md *placeholder
+cp 4.9.239-DirtyDragons_rV7+OCEAN-Thursday-October-15-2020.zip /home/javashin/Desktop/
+ls -lash 4.9.239-DirtyDragons_rV7+OCEAN-Thursday-October-15-2020.zip ; pwd ; cd .. ; pwd
 
 
 
