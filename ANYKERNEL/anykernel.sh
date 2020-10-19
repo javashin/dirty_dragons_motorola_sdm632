@@ -30,7 +30,7 @@ ui_print " "
 ui_print "Device: Moto G7 Power (OCEAN)"
 ui_print "Kernel Name: DirtyDragons"
 ui_print "Build User: root = javashin"
-ui_print "KVer: 4.9.240-DirtyDragons_rV8+ jsX-DirtyDragons SMP PREEMPT aarch64"
+ui_print "KVer: 4.9.240-DirtyDragons_rV8+ Caf-DirtyDragons SMP PREEMPT aarch64"
 ui_print "Monday, October 19 2020"
 ui_print " "
 

@@ -115,11 +115,14 @@ cp ./Image.gz-dtb ANYKERNEL/
 cd ANYKERNEL/
 rm ./dtbo.img
 rm 4.9.2*.zip
-zip -r9 4.9.239-Pre-DirtyDragons_rV6+OCEAN-Fri-October-09-2020.zip * -x .git README.md *placeholder
-cp 4.9.239-Pre-DirtyDragons_rV6+OCEAN-Fri-October-09-2020.zip /home/javashin/Desktop/
-ls -lash 4.9.239-Pre-DirtyDragons_rV6+OCEAN-Fri-October-09-2020.zip ; pwd ; cd .. ; pwd
+zip -r9 4.9.240-DirtyDragons_rV8+OCEAN-CAF-Mon-October-19-2020.zip * -x .git README.md *placeholder
+cp  4.9.240-DirtyDragons_rV8+OCEAN-CAF-Mon-October-19-2020.zip /home/javashin/Desktop/
+ls -lash 4.9.240-DirtyDragons_rV8+OCEAN-CAF-Mon-October-19-2020.zip
+sha256sum 4.9.240-DirtyDragons_rV8+OCEAN-CAF-Mon-October-19-2020.zip
+md5sum 4.9.240-DirtyDragons_rV8+OCEAN-CAF-Mon-October-19-2020.zip
+pwd ; cd .. ; pwd
 
-
+#CONFIG_LEDS_TRIGGER_TRANSIENT
 
 echo "done"
 
