@@ -4,19 +4,16 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=-#- DirtyDragons Caf MSM-4.9-r27 Branch For Moto G7 Power (Ocean) -#-
+kernel.string=-#- DirtyDragons Caf MSM-4.9 r27 Branch For Moto G7 Power Ocean Stock-Q -#-
 do.devicecheck=1
-do.modules=0
-do.systemless=1
+do.modules=1
 do.cleanup=1
 do.cleanuponabort=0
 device.name1=ocean
-device.name2=
 supported.versions=
 supported.patchlevels=
 '; } # end properties
 
-# shell variables
 
 block=/dev/block/by-name/boot;
 is_slot_device=auto;
@@ -26,16 +23,18 @@ ramdisk_compression=lzma;
 # import patching functions/variables - see for reference
 . tools/ak3-core.sh;
 
-ui_print " "
-ui_print "Device: Moto G7 Power (OCEAN)"
-ui_print "Kernel Name: DirtyDragons"
-ui_print "Build User: root = javashin"
-ui_print "KVer: 4.9.240-DirtyDragons_rV8+ jsX-DirtyDragons SMP PREEMPT aarch64"
-ui_print "Monday, October 19 2020"
-ui_print " "
 
 ## AnyKernel install
 dump_boot;
+
+
+ui_print "Device: Moto G7 Power (OCEAN)"
+ui_print "Kernel Name: DirtyDragons-Stock-Q"
+ui_print "Build User: root = javashin"
+ui_print "KVer: 4.9.240-DirtyDragons_rV8+ Stock-DirtyDragons SMP PREEMPT aarch64"
+ui_print "Monday, October 19 2020"
+
+
 write_boot;
 ## end install
 
