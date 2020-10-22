@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.9.237-jsX-BvD_rV7 Kernel Configuration
+# Linux/arm64 4.9.240 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -46,7 +46,7 @@ CONFIG_THREAD_INFO_IN_TASK=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
 CONFIG_CROSS_COMPILE="/usr/bin/aarch64-unknown-linux-gnu-"
 # CONFIG_COMPILE_TEST is not set
-CONFIG_LOCALVERSION=""
+CONFIG_LOCALVERSION="-perf"
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_DEFAULT_HOSTNAME="(none)"
 CONFIG_SWAP=y
@@ -245,11 +245,11 @@ CONFIG_HAVE_CMPXCHG_DOUBLE=y
 CONFIG_ARCH_WANT_COMPAT_IPC_PARSE_VERSION=y
 CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
 CONFIG_SECCOMP_FILTER=y
-CONFIG_HAVE_GCC_PLUGINS=y
+# CONFIG_HAVE_GCC_PLUGINS is not set
 # CONFIG_GCC_PLUGINS is not set
-CONFIG_HAVE_CC_STACKPROTECTOR=y
+# CONFIG_HAVE_CC_STACKPROTECTOR is not set
 # CONFIG_CC_STACKPROTECTOR is not set
-CONFIG_CC_STACKPROTECTOR_NONE=y
+# CONFIG_CC_STACKPROTECTOR_NONE is not set
 # CONFIG_CC_STACKPROTECTOR_REGULAR is not set
 # CONFIG_CC_STACKPROTECTOR_STRONG is not set
 # CONFIG_POLLY_CLANG is not set
@@ -536,7 +536,7 @@ CONFIG_RANDOMIZE_MODULE_REGION_FULL=y
 #
 # Boot options
 #
-CONFIG_CMDLINE="audit=0 mitigations=off zram.num_devices=4 zram_num.devices=4 zswap.compressor=lz4 zswap.max_pool_percent=15 zswap.zpool=z3fold zswap.enabled=1 elevator=anxiety coresight_cpu_debug.enable=0 debug=0 nowatchdog nmi_watchdog=0 no_debug_objects dyndbg=0 module.dyndbg=0"
+CONFIG_CMDLINE="audit=0 mitigations=off zram.num_devices=4 zram_num.devices=4 zswap.compressor=lz4 zswap.max_pool_percent=15 zswap.zpool=z3fold zswap.enabled=1 elevator=anxiety coresight_cpu_debug.enable=0 debug=0 nowatchdog nmi_watchdog=0 no_debug_objects dyndbg=0 module.dyndbg=0 ksm_mode=always"
 # CONFIG_CMDLINE_FROM_BOOTLOADER is not set
 CONFIG_CMDLINE_EXTEND=y
 # CONFIG_CMDLINE_FORCE is not set
@@ -1146,7 +1146,7 @@ CONFIG_BT=y
 # CONFIG_BT_LE is not set
 # CONFIG_BT_LEDS is not set
 # CONFIG_BT_SELFTEST is not set
-# CONFIG_BT_DEBUGFS is not set
+CONFIG_BT_DEBUGFS=y
 
 #
 # Bluetooth device drivers
@@ -1296,7 +1296,7 @@ CONFIG_BLK_DEV=y
 CONFIG_ZRAM=y
 # CONFIG_ZRAM_WRITEBACK is not set
 # CONFIG_ZRAM_MEMORY_TRACKING is not set
-CONFIG_ZRAM_DEFAULT_COMP_ALGORITHM="lz4"
+CONFIG_ZRAM_DEFAULT_COMP_ALGORITHM="lzo-rle"
 CONFIG_ZRAM_SIZE_OVERRIDE=2
 # CONFIG_BLK_DEV_COW_COMMON is not set
 CONFIG_BLK_DEV_LOOP=y
@@ -4850,7 +4850,7 @@ CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
 # CONFIG_ARM64_PTDUMP is not set
 # CONFIG_PID_IN_CONTEXTIDR is not set
 # CONFIG_ARM64_RANDOMIZE_TEXT_OFFSET is not set
-CONFIG_DEBUG_ALIGN_RODATA=y
+# CONFIG_DEBUG_ALIGN_RODATA is not set
 # CONFIG_ARM64_STRICT_BREAK_BEFORE_MAKE is not set
 # CONFIG_CORESIGHT is not set
 
